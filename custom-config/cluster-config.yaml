@@ -1,0 +1,38 @@
+ansible_collection_tag: v5.4.9
+bastion_instance_size: t3.small
+cloud_platform: aws
+cloud_region: ap-southeast-1
+cluster_name: wp
+coredns_bind_address: 169.254.20.10
+dns_provider: aws
+dns_zone_force_destroy: true
+domain: cc.wynepayhubsanbox-pre.com
+enable_cloud_csi_provisioner: true
+enable_object_storage_backend: true
+iac_group_name: iac_admin
+iac_terraform_modules_tag: v5.9.0
+k8s_cluster_module: base-k8s
+k8s_cluster_type: microk8s
+kubernetes_oidc_enabled: true
+letsencrypt_email: test@mojalabs.io
+master_node_supports_traffic: true
+microk8s_dev_skip: false
+nodes:
+    master-generic:
+        extra_vol: false
+        extra_vols: []
+        instance_type: m5.4xlarge
+        master: true
+        node_count: 3
+        node_labels: []
+        node_taints: []
+        storage_gbs: 100
+object_storage_base_bucket_name: velero
+object_storage_force_destroy_bucket: true
+single_nat_gateway: true
+tags:
+    Origin: Terraform
+    mojaloop/cost_center: development
+    mojaloop/env: development
+    mojaloop/owner: Nyi-Aye
+vpc_cidr: 10.106.0.0/23
