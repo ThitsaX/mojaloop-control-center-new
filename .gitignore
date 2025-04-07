@@ -41,3 +41,6 @@ terraform.rc
 *.terragrunt-cache
 *environment.json
 *output
+
+# Ignore any other files that are not needed in the repository
+merged-config/*
