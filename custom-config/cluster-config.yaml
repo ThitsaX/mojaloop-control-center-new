@@ -1,4 +1,4 @@
-ansible_collection_tag: v5.4.9
+ansible_collection_tag: v5.5.0-on-premise
 bastion_instance_size: t3.small
 cloud_platform: aws
 cloud_region: ap-southeast-1
