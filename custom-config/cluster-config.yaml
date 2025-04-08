@@ -10,7 +10,7 @@ domain: cc.wynepayhubsanbox-pre.com
 enable_cloud_csi_provisioner: true
 enable_object_storage_backend: true
 iac_group_name: iac_admin
-iac_terraform_modules_tag: v5.9.0
+iac_terraform_modules_tag: v5.9.1-on-premise
 k8s_cluster_module: base-k8s
 k8s_cluster_type: microk8s
 kubernetes_oidc_enabled: true

@@ -42,7 +42,7 @@ Core elements:
 ## Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/mojaloop/mojaloop-control-center-new.git
+   git clone https://github.com/thitsax/mojaloop-control-center-new.git
    cd mojaloop-control-center-new
    ```
 
