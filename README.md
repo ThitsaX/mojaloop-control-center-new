@@ -19,7 +19,7 @@ This repository provides infrastructure as code (IaC) and automated deployment t
 
 ## Structure
 The control center is composed of:
-- Kubernetes cluster setup (MicroK8s)
+- Kubernetes cluster setup (EKS or Microk8s)
 - Configuration management framework
 - State handling tools
 - Environment-tailored settings
