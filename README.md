@@ -63,16 +63,6 @@ Core elements:
    source ./scripts/setlocalvars.sh
    ./scripts/mergeconfigs.sh 
    ```
-
-3. Initialize Terragrunt:
-   ```bash
-   terragrunt run-all init
-   ```
-4. Apply Terragrunt:
-   ```bash
-   terragrunt run-all apply
-   ```   
-
 ## Customization
 Settings are managed via YAML files in:
 - `default-config/`: Base settings
@@ -87,9 +77,9 @@ Primary configuration files:
 The `scripts/` directory handles automatic configuration merging.
 
 ## Operation
-### Launching the Control Center
+### Launching the Control Center Deployment
 ```bash
-./externalrunner.sh
+./wrapper.sh
 ```
 
 ### State Management
@@ -123,6 +113,7 @@ Adjust version numbers in:
 
 ## Utilities
 - `externalrunner.sh`: initializes the environment by setting key variables
+- `wrapper.sh`: Orchestrates the deployment process with a locking mechanism to prevent concurrent runs. It creates a lock file (/tmp/myscript.lock)
 - `movestate*.sh`: State management scripts
 - `destroy-cc.sh`: Removal script
 - `scripts/dictmerge.py`: Configuration merging tool
