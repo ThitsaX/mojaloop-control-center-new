@@ -1,125 +1,140 @@
-# Mojaloop Control Center (Fork of mojaloop/iac-modules)
+# Mojaloop Control Center (Derived from mojaloop/iac-modules)
 
-This repository is a fork of [mojaloop/iac-modules](https://github.com/mojaloop/iac-modules), customized for specific control center deployments. It provides Kubernetes-based infrastructure automation and configuration management for Mojaloop.
+This repository is a customized version of [mojaloop/iac-modules](https://github.com/mojaloop/iac-modules), tailored for specific Mojaloop control center implementations. It offers Kubernetes-driven infrastructure automation and configuration management.
 
 ## Table of Contents
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Maintenance](#maintenance)
-- [Scripts](#scripts)
+- [Introduction](#introduction)
+- [Structure](#structure)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Customization](#customization)
+- [Operation](#operation)
+- [Upkeep](#upkeep)
+- [Utilities](#utilities)
 - [License](#license)
-- [Differences from Upstream](#differences-from-upstream)
+- [Changes from Original](#changes-from-original)
 
-## Overview
-This repository contains infrastructure as code (IaC) and deployment automation for setting up and managing Mojaloop control center environments. It supports both AWS and bare-metal deployments using Terraform/Terragrunt and Ansible.
+## Introduction
+This repository provides infrastructure as code (IaC) and automated deployment tools for establishing and managing Mojaloop control center setups. It accommodates both AWS and bare-metal environments using Terraform/Terragrunt and Ansible.
 
-## Architecture
-The control center consists of:
-- Kubernetes cluster deployment (MicroK8s)
-- Configuration management system
-- State management utilities
-- Environment-specific configurations
+## Structure
+The control center is composed of:
+- Kubernetes cluster setup (MicroK8s)
+- Configuration management framework
+- State handling tools
+- Environment-tailored settings
 
-Key components:
-- `ansible-k8s-deploy/`: Ansible playbooks for Kubernetes deployment
-- `k8s-deploy/`: Kubernetes resource definitions
-- `default-config/`: Base configuration templates
-- `custom-config/`: Environment-specific overrides
-- `scripts/`: Utility scripts for configuration merging and setup
+Core elements:
+- `ansible-k8s-deploy/`: Ansible scripts for Kubernetes setup
+- `k8s-deploy/`: Kubernetes resource specifications
+- `default-config/`: Standard configuration templates
+- `custom-config/`: Environment-specific adjustments
+- `scripts/`: Helper scripts for merging configurations and initialization
 
-## Prerequisites
+## Requirements
 - Terraform >= 1.2
 - Terragrunt
 - Ansible
 - kubectl
 - yq (YAML processor)
-- AWS CLI (for AWS deployments)
+- AWS CLI (for AWS setups)
 
-## Installation
-1. Clone this repository:
+## Setup
+1. Clone the repository:
    ```bash
-   git clone https://github.com/mojaloop/mojaloop-control-center-v2.git
-   cd mojaloop-control-center-v2
+   git clone https://github.com/mojaloop/mojaloop-control-center-new.git
+   cd mojaloop-control-center-new
    ```
 
-2. Set up required environment variables:
+2. Define necessary environment variables:
    ```bash
-   export AWS_PROFILE=your_profile
-   export PRIVATE_REPO_TOKEN=your_token
-   export PRIVATE_REPO_USER=your_username
+   source ~/.venv/bin/activate #activate python virtual environment for ansible
+
+   #Configure externalrunner.sh
+   export AWS_PROFILE=yourprofilename
+   export PRIVATE_REPO_TOKEN=nullvalue
+   export PRIVATE_REPO_USER=nullvalue
+   export ANSIBLE_BASE_OUTPUT_DIR=/tmp/output
+   export PRIVATE_REPO=example.com
+
+   #Adjust custom-config/cluster-config.yaml as needed
+   
+   source externalrunner.sh
+   source ./scripts/setlocalvars.sh
+   ./scripts/mergeconfigs.sh 
    ```
 
-3. Initialize Terraform/Terragrunt:
+3. Initialize Terragrunt:
    ```bash
    terragrunt run-all init
    ```
+4. Apply Terragrunt:
+   ```bash
+   terragrunt run-all apply
+   ```   
 
-## Configuration
-Configuration is managed through YAML files in:
-- `default-config/`: Contains base configurations
-- `custom-config/`: Contains environment-specific overrides
+## Customization
+Settings are managed via YAML files in:
+- `default-config/`: Base settings
+- `custom-config/`: Environment-specific modifications
 
-Key configuration files:
-- `cluster-config.yaml`: Main cluster configuration
-- `aws-vars.yaml`: AWS-specific variables
-- `bare-metal-vars.yaml`: Bare-metal specific variables
-- `environment.yaml`: Environment definitions
+Primary configuration files:
+- `cluster-config.yaml`: Core cluster settings
+- `aws-vars.yaml`: AWS-specific parameters
+- `bare-metal-vars.yaml`: Bare-metal specific parameters
+- `environment.yaml`: Environment specifications
 
-Configuration merging is handled automatically by the scripts in `scripts/`.
+The `scripts/` directory handles automatic configuration merging.
 
-## Usage
-### Deploying the Control Center
+## Operation
+### Launching the Control Center
 ```bash
 ./externalrunner.sh
 ```
 
-### Managing State
-- Move state to Kubernetes:
+### State Management
+- Transfer state to Kubernetes:
   ```bash
   ./movestatetok8s.sh
   ```
 
-- Move state from Kubernetes:
+- Retrieve state from Kubernetes:
   ```bash
   ./movestatefromk8s.sh
   ```
 
-### Destroying the Control Center
+### Removing the Control Center
 ```bash
 ./destroy-cc.sh
 ```
 
-## Maintenance
-### Updating Configurations
-1. Modify files in `custom-config/` for environment-specific changes
-2. Run configuration merge:
+## Upkeep
+### Modifying Configurations
+1. Edit files in `custom-config/` for environment-specific updates
+2. Execute configuration merge:
    ```bash
    ./scripts/mergeconfigs.sh
    ```
 
-### Upgrading Components
-Update version numbers in:
-- `default-config/common-vars.yaml`
-- `default-config/cluster-config.yaml`
+### Updating Components
+Adjust version numbers in:
+- `custom-config/common-vars.yaml`
+- `custom-config/cluster-config.yaml`
 
-## Scripts
-- `externalrunner.sh`: Main deployment script
-- `movestate*.sh`: State management utilities
-- `destroy-cc.sh`: Cleanup script
-- `scripts/dictmerge.py`: Configuration merger
-- `scripts/mergeconfigs.sh`: Configuration merge wrapper
-- `scripts/setlocalvars.sh`: Environment setup
+## Utilities
+- `externalrunner.sh`: initializes the environment by setting key variables
+- `movestate*.sh`: State management scripts
+- `destroy-cc.sh`: Removal script
+- `scripts/dictmerge.py`: Configuration merging tool
+- `scripts/mergeconfigs.sh`: Configuration merge orchestrator
+- `scripts/setlocalvars.sh`: Environment variable initializer
 
 ## License
-This project inherits the original license from [mojaloop/iac-modules](https://github.com/mojaloop/iac-modules). Please refer to the original repository for license details.
+This project adopts the license from [mojaloop/iac-modules](https://github.com/mojaloop/iac-modules). Refer to the original repository for licensing information.
 
-## Differences from Upstream
-This fork includes the following customizations:
-- Control center specific configurations
-- Additional deployment scripts
-- Modified state management utilities
-- Custom configuration merging system
+## Changes from Original
+This version includes the following adaptations:
+- Control center-specific settings
+- Extra deployment utilities
+- Revised state management tools
+- Enhanced configuration merging mechanism
